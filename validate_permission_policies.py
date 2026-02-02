@@ -25,15 +25,15 @@ class iam_policies():
         self.iam_secret_access_key  = access_key
         self.iam_session            = boto3.Session(aws_access_key_id = self.iam_access_keyId,
                                                     aws_secret_access_key = self.iam_secret_access_key)
-        self.ec2_resources          = self.iam_session.resource('ec2', 'us-east-1')
-        self.s3_resources           = self.iam_session.resource('s3', 'us-east-1')
-        self.iam_client             = self.iam_session.client("iam", 'us-east-1')
-        self.iam_resource           = self.iam_session.resource("iam", 'us-east-1')
-        self.requestQ               = self.iam_session.client('sqs', 'us-east-1')
+        self.ec2_resources          = self.iam_session.resource('ec2', 'us-west-2')
+        self.s3_resources           = self.iam_session.resource('s3', 'us-west-2')
+        self.iam_client             = self.iam_session.client("iam", 'us-west-2')
+        self.iam_resource           = self.iam_session.resource("iam", 'us-west-2')
+        self.requestQ               = self.iam_session.client('sqs', 'us-west-2')
         self.logger                 = logger
 
         self.print_and_log(self.logger, "-----------------------------------------------------------------")
-        self.print_and_log(self.logger, f"IAM ACESS KEY ID: {self.iam_access_keyId}")
+        self.print_and_log(self.logger, f"IAM ACCESS KEY ID: {self.iam_access_keyId}")
         self.print_and_log(self.logger, f"IAM SECRET ACCESS KEY: {self.iam_secret_access_key}")
         self.print_and_log(self.logger, "-----------------------------------------------------------------")
 

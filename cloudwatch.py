@@ -25,9 +25,9 @@ class aws_cloudwatch():
         self.iam_secret_access_key  = access_key
         self.iam_session            = boto3.Session(aws_access_key_id = self.iam_access_keyId,
                                                     aws_secret_access_key = self.iam_secret_access_key)
-        self.iam_client             = self.iam_session.client("iam", 'us-east-1')
-        self.iam_resource           = self.iam_session.resource("iam", 'us-east-1')
-        self.cloudwatch_client      = self.iam_session.client('cloudwatch', 'us-east-1')
+        self.iam_client             = self.iam_session.client("iam", 'us-west-2')
+        self.iam_resource           = self.iam_session.resource("iam", 'us-west-2')
+        self.cloudwatch_client      = self.iam_session.client('cloudwatch', 'us-west-2')
         self.logger                 = logger
 
     def print_and_log(self, message):
@@ -59,7 +59,7 @@ class aws_cloudwatch():
                     threshold   = alarm['Threshold']
                     operator    = alarm['ComparisonOperator']
 
-                    self.print_and_log(f"[Cloudwatch-log] Alarm:{name} with ARN:{alarm_arn} found in state:{state_value}. It is configued with statistic:{statistic}, threshold:{threshold} and Comparison Operator:{operator}")
+                    self.print_and_log(f"[Cloudwatch-log] Alarm:{name} with ARN:{alarm_arn} found in state:{state_value}. It is configured with statistic:{statistic}, threshold:{threshold} and Comparison Operator:{operator}")
 
                     if (state_value == 'ALARM'):
                         self.print_and_log(f"[Cloudwatch-log] CAUTION !!! Billing alarm:{alarm_arn} is triggered. Release the unwanted resources")

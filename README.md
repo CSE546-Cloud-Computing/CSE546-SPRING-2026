@@ -70,8 +70,6 @@ Following policies are attached with IAM user:cse546-AutoGrader: ['AmazonEC2Read
 [IAM-log] AmazonEC2ReadOnlyAccess policy attached with grading IAM
 [IAM-log] AmazonS3FullAccess policy attached with grading IAM
 [IAM-log] AmazonDynamoDBReadOnlyAccess policy attached with grading IAM
-[Cloudwatch-log] Alarm:Billing-alarm-5$ with ARN:arn:aws:cloudwatch:us-east-1:906986098922:alarm:Billing-alarm-5$ found in state:OK. It is configued with statistic:Maximum, threshold:5.0 and Comparison Operator:GreaterThanOrEqualToThreshold
-[Cloudwatch-log] Billing alarm:arn:aws:cloudwatch:us-east-1:906986098922:alarm:Billing-alarm-5$ is not triggered.
 [Cloudwatch-log] CAUTION !! You do not have a Cloudwatch alarm set. Kindly refer to the Project-0 document and learn how to set a billing alar
 ----------------- Executing Test-Case:2 ----------------
 [EC2-log] AmazonEC2ReadOnlyAccess policy attached with grading IAM
@@ -91,17 +89,17 @@ Following policies are attached with IAM user:cse546-AutoGrader: ['AmazonEC2Read
 [Workload-gen] Total number of failed requests: 0
 [Workload-gen] Total number of correct predictions : 100
 [Workload-gen] Total number of wrong predictions: 0
-[Workload-gen] Total Test Duration: 1.0425093173980713 (seconds)
+[Workload-gen] Total Test Duration: 2.1333048343658447 (seconds)
 [Workload-gen] -----------------------------------
 
 [S3-log] Bucket:1225754101-in-bucket is now EMPTY !!
 [Test-Case-3-log] 100/100 entries in S3 bucket:1225754101-in-bucket.Points:[20.0/20]
 [Test-Case-3-log] 100/100 completed successfully.Points:[20.0/20]
 [Test-Case-3-log] 100/100 correct predictions.Points:[20.0/20]
-[Test-Case-3-log] Test Latency: 1.0425093173980713 sec. `latency<=3`.Points:[40/40]
+[Test-Case-3-log] Test Latency: 2.1333048343658447 sec. `latency<=3`.Points:[40/40]
 Total Grade Points: 100.0
 Removed extracted folder: extracted
-Execution Time for Doe John ASUID: 1225754101: 5.134832382202148 seconds
+Execution Time for Doe John ASUID: 1225754101: 6.430150747299194 seconds
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Grading complete for Project-1. Check the Project-1-grades.csv file.
+Grading complete for Project-1. Check the Project-1-grades.csv file
 ```

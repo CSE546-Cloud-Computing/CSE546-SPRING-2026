@@ -29,15 +29,15 @@ class grader_project1():
         self.iam_secret_access_key  = access_key
         self.iam_session            = boto3.Session(aws_access_key_id = self.iam_access_keyId,
                 aws_secret_access_key = self.iam_secret_access_key)
-        self.ec2_resources          = self.iam_session.resource('ec2', 'us-east-1')
-        self.s3_resources           = self.iam_session.resource('s3', 'us-east-1')
-        self.simpledb_client        = self.iam_session.client('sdb', 'us-east-1')
-        self.dynamodb_client        = self.iam_session.client('dynamodb', 'us-east-1')
-        self.dynamodb_resource      = self.iam_session.resource('dynamodb', 'us-east-1')
+        self.ec2_resources          = self.iam_session.resource('ec2', 'us-west-2')
+        self.s3_resources           = self.iam_session.resource('s3', 'us-west-2')
+        self.simpledb_client        = self.iam_session.client('sdb', 'us-west-2')
+        self.dynamodb_client        = self.iam_session.client('dynamodb', 'us-west-2')
+        self.dynamodb_resource      = self.iam_session.resource('dynamodb', 'us-west-2')
         self.logger                 = logger
         self.ec2_ro_access_flag     = ec2_ro_access_flag
         self.s3_full_access_flag    = s3_full_access_flag
-        self.in_bucket_name         = f"{asuid}-in-bucket"
+        self.in_bucket_name         = f"{asuid}-in-bucket-kj"
         self.dynamodb_table_name    = f"{asuid}-dynamoDB"
 
     def print_and_log(self, message):
@@ -315,7 +315,7 @@ class grader_project1():
         test_results = {}
 
         self.print_and_log("-------------- CSE546 Cloud Computing Grading Console -----------")
-        self.print_and_log(f"IAM ACESS KEY ID: {self.iam_access_keyId}")
+        self.print_and_log(f"IAM ACCESS KEY ID: {self.iam_access_keyId}")
         self.print_and_log(f"IAM SECRET ACCESS KEY: {self.iam_secret_access_key}")
         self.print_and_log(f"Web-Instance IP Address: {ip_addr}")
         self.print_and_log("-----------------------------------------------------------------")

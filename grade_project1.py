@@ -37,7 +37,7 @@ class grader_project1():
         self.logger                 = logger
         self.ec2_ro_access_flag     = ec2_ro_access_flag
         self.s3_full_access_flag    = s3_full_access_flag
-        self.in_bucket_name         = f"{asuid}-in-bucket-kj"
+        self.in_bucket_name         = f"{asuid}-in-bucket"
         self.dynamodb_table_name    = f"{asuid}-dynamoDB"
 
     def print_and_log(self, message):

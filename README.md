@@ -1,12 +1,19 @@
-# CSE546-SPRING-2026
-This is a public repository to facilitate project development for CSE546 Cloud Computing students.
+## Face Recognition Model Repository with Inference Code and Pretrained Weights
 
-### Repository Branches
+### Folder structure:
+ - facenet_pytorch: This is a repository for Inception Resnet (V1) models in pytorch, pretrained on VGGFace2 and CASIA-Webface. 
+ - face_recognition.py: Model Inference code 
+ - data.pt: Saved model weights 
 
-This repository contains multiple branches. Below is a list of available branches:
+### Prerequisites
+  - You need to install the PyTorch CPU version to use the code.
+    ```
+    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+    ```
 
-| Branch Name  | Description |
-|-------------|------------|
-| [datasets](https://github.com/CSE546-Cloud-Computing/CSE546-SPRING-2026/tree/datasets) | The dataset branch. |
-| [project-0](https://github.com/CSE546-Cloud-Computing/CSE546-SPRING-2026/tree/project-0) | Autograder for Project-0. |
-| [project-1-part-1](https://github.com/CSE546-Cloud-Computing/CSE546-SPRING-2026/tree/project-1-part-1) | Autograder for Project-1 Part-1. |
+### Sample Output:
+
+```
+(cse546) kjha9@en4113732l:~/git/Project-1/part-2/model$ python3 face_recognition.py ../../face_images_1000/test_000.jpg
+Paul
+(cse546) kjha9@en4113732l:~/git/Project-1/part-2/model$

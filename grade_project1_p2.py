@@ -39,7 +39,7 @@ class grader_project1():
         self.s3_full_access_flag    = s3_full_access_flag
         self.sqs_full_access_flag   = sqs_full_access_flag
         self.db_full_access_flag    = db_full_access_flag
-        self.in_bucket_name         = f"{asuid}-in-bucket-kp"
+        self.in_bucket_name         = f"{asuid}-in-bucket"
         self.dynamodb_table_name    = f"{asuid}-dynamoDB"
         self.req_sqs_name           = f"{asuid}-req-queue"
         self.resp_sqs_name          = f"{asuid}-resp-queue"

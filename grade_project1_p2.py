@@ -771,6 +771,7 @@ class grader_project1():
 		# Clean up DynamoDB table after warm cache test
         self.print_and_log("[Test-Case-WC-log] Clearing DynamoDB table after warm cache run ...")
         self.clear_dynamodb_table()
+        self.empty_s3_bucket(self.in_bucket_name)
 
         return latency_score, latency_log
 

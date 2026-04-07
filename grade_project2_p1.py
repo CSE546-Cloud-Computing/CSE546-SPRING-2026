@@ -111,6 +111,27 @@ class grader_project2_p1():
         resp = self.s3_client.list_objects_v2(Bucket=bucket, MaxKeys=1)
         return resp.get("KeyCount", 0) == 0
 
+    def clean_bucket(self, bucket):
+        """Delete every object in the given bucket."""
+        try:
+            paginator = self.s3_client.get_paginator("list_objects_v2")
+            keys = []
+            for page in paginator.paginate(Bucket=bucket):
+                for obj in page.get("Contents", []):
+                    keys.append({"Key": obj["Key"]})
+            if keys:
+                for i in range(0, len(keys), 1000):
+                    self.s3_client.delete_objects(
+                        Bucket=bucket,
+                        Delete={"Objects": keys[i:i+1000]})
+                self.print_and_log(
+                    f"    {bucket} — deleted {len(keys)} objects")
+            else:
+                self.print_and_log(f"    {bucket} — already clean")
+        except ClientError as e:
+            self.print_and_log_warn(
+                f"    {bucket} — cleanup failed: {e}")
+
     def clean_s3_prefixes(self, bucket, prefixes):
         for prefix in prefixes:
             paginator = self.s3_client.get_paginator("list_objects_v2")
@@ -727,6 +748,15 @@ class grader_project2_p1():
             self.print_and_log(
                 f"\n  TOTAL: {total}/100 "
                 f"(fatal deduction, skipping E2E)")
+            self.print_and_log(
+                "\n----------------- Post-run S3 Cleanup "
+                "----------------")
+            try:
+                self.clean_bucket(self.global_bucket)
+                self.clean_bucket(self.local_bucket)
+            except Exception as e:
+                self.print_and_log_warn(
+                    f"  Post-run cleanup error: {e}")
             return test_results
 
         # =============================================
@@ -806,6 +836,17 @@ class grader_project2_p1():
         test_results["grade_points"] = total
         self.print_and_log(
             f"Total Grade Points: {total}")
+
+        # =============================================
+        # Post-run cleanup: wipe both buckets so the
+        # next run starts from a clean state and TC-1a
+        # does not deduct for leftover objects.
+        # =============================================
+        self.print_and_log(
+            "\n----------------- Post-run S3 Cleanup "
+            "----------------")
+        self.clean_bucket(self.global_bucket)
+        self.clean_bucket(self.local_bucket)
 
         return test_results
 

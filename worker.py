@@ -135,7 +135,7 @@ def worker_main():
     1. Read PARTITION_ID and ASU_ID from environment variables
     2. Set up boto3 S3 client
     3. Load your MNIST partition from local disk
-       (data is at /home/ubuntu/fl-worker/data_cache/client-{PARTITION_ID}/)
+       (data is at /home/ubuntu/fl-client/data_cache/client-{PARTITION_ID}/)
     4. For each round (0 to NUM_ROUNDS-1):
        a. Poll S3 for global model: models/global_model_round_{R}.npz
        b. Download and deserialize the global model

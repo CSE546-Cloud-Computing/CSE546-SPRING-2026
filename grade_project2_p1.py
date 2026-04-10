@@ -847,6 +847,11 @@ class grader_project2_p1():
             "----------------")
         self.clean_bucket(self.global_bucket)
         self.clean_bucket(self.local_bucket)
+        # Wait for any in-flight Lambda to finish writing,
+        # then wipe again to catch late arrivals (e.g. metrics/*.json).
+        time.sleep(15)
+        self.clean_bucket(self.global_bucket)
+        self.clean_bucket(self.local_bucket)
 
         return test_results
 

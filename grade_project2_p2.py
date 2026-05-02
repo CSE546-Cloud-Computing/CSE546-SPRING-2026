@@ -14,7 +14,7 @@ Scoring (100 total):
       S3 buckets missing
       Greengrass Core API not accessible
       Fewer than 10 Greengrass core devices, or any not HEALTHY
-      Any <ASU-ID>-fl-worker-{0..9}-gg IoT Thing missing
+      Any <ASU-ID>-fl-worker-{0..8,pi}-gg IoT Thing missing
 
     Deductions:
        -10  Any S3 bucket not empty at start
@@ -251,7 +251,8 @@ class grader_project2_p2():
         resp = self.ec2_client.describe_instances(
             Filters=[
                 {"Name": "tag:Name",
-                 "Values": [f"{self.asuid}-fl-worker-*"]},
+                 "Values": [f"{self.asuid}-fl-worker-{i}"
+                            for i in range(NUM_CLIENTS)]},
                 {"Name": "instance-state-name",
                  "Values": ["running", "stopped", "pending", "stopping"]},
             ]
@@ -294,6 +295,16 @@ class grader_project2_p2():
                     f"not in stopped state")
                 deductions.append(
                     (10, "Worker instances not all stopped"))
+
+        running_resp = self.ec2_client.describe_instances(
+            Filters=[{"Name": "instance-state-name", "Values": ["running"]}]
+        )
+        running_count = sum(
+            len(res["Instances"]) for res in running_resp["Reservations"])
+        if running_count:
+            self.print_and_log_warn(
+                f"    DEDUCTION: {running_count} EC2 instance(s) running")
+            deductions.append((100, "EC2 instance(s) running at start"))
 
         # --- TC-1c: Lambda function is Active ---
         self.print_and_log("\n  TC-1c: Lambda Function")
@@ -351,6 +362,7 @@ class grader_project2_p2():
         if not fatal and core_devices:
             expected = {f"{self.asuid}-fl-worker-{i}-gg"
                         for i in range(NUM_CLIENTS)}
+            expected.add(f"{self.asuid}-fl-worker-pi-gg")
             found_names = {cd.get("coreDeviceThingName", "")
                            for cd in core_devices}
             missing = expected - found_names
@@ -377,14 +389,16 @@ class grader_project2_p2():
                     fatal = True
                 else:
                     self.print_and_log(
-                        f"    All {NUM_CLIENTS} core devices HEALTHY")
+                        f"    All {NUM_CLIENTS + 1} core devices HEALTHY")
 
         # --- TC-1e: IoT Things exist (NEW) ---
         self.print_and_log("\n  TC-1e: IoT Things")
         self.print_and_log(f"  {'-' * 50}")
         missing_things = []
-        for i in range(NUM_CLIENTS):
-            thing_name = f"{self.asuid}-fl-worker-{i}-gg"
+        expected_things = [f"{self.asuid}-fl-worker-{i}-gg"
+                           for i in range(NUM_CLIENTS)]
+        expected_things.append(f"{self.asuid}-fl-worker-pi-gg")
+        for thing_name in expected_things:
             try:
                 self.iot_client.describe_thing(thingName=thing_name)
                 self.print_and_log(f"    {thing_name}: EXISTS")
@@ -466,7 +480,8 @@ class grader_project2_p2():
         resp = self.ec2_client.describe_instances(
             Filters=[
                 {"Name": "tag:Name",
-                 "Values": [f"{self.asuid}-fl-worker-*"]},
+                 "Values": [f"{self.asuid}-fl-worker-{i}"
+                            for i in range(NUM_CLIENTS)]},
                 {"Name": "instance-state-name",
                  "Values": ["stopped"]},
             ]
@@ -634,7 +649,7 @@ class grader_project2_p2():
 
             # Local model updates (.npz per client) — in local-bucket
             local_found = 0
-            for c in range(NUM_CLIENTS):
+            for c in range(NUM_CLIENTS + 1):
                 key = (f"{UPDATES_PREFIX}"
                        f"local_model_round_{r}"
                        f"_worker_{c}.npz")
@@ -645,7 +660,7 @@ class grader_project2_p2():
                 except ClientError:
                     missing.append(key)
             self.print_and_log(
-                f"    Local models: {local_found}/{NUM_CLIENTS}")
+                f"    Local models: {local_found}/{NUM_CLIENTS + 1}")
 
             # Round metrics
             met_key = f"{METRICS_PREFIX}round_{r}.json"
@@ -812,14 +827,14 @@ class grader_project2_p2():
             f"    Training time: {training_time:.1f}s")
         self.print_and_log(f"    Score: {speed_pts}/50")
 
-        if training_time < 60:
-            tier_desc = "< 60s"
-        elif training_time < 80:
-            tier_desc = ">= 60s and < 80s"
-        elif training_time < 100:
-            tier_desc = ">= 80s and < 100s"
+        if training_time < 80:
+            tier_desc = "< 80s"
+        elif training_time < 90:
+            tier_desc = ">= 80s and < 90s"
+        elif training_time < 110:
+            tier_desc = ">= 90s and < 110s"
         else:
-            tier_desc = ">= 100s"
+            tier_desc = ">= 110s"
         self.print_and_log(f"    Tier: {tier_desc}")
 
         return speed_pts, \

@@ -53,7 +53,7 @@ LOCAL_DATA_FILES = {
 
 # Training parameters
 NUM_ROUNDS = 5
-NUM_CLIENTS = 10
+NUM_CLIENTS = 9
 E2E_TIMEOUT = 300  # seconds
 GG_INIT_WAIT = 60  # seconds — wait for Greengrass to subscribe after boot
 
@@ -68,9 +68,9 @@ ACCURACY_TIERS = [
 
 # Speed tiers: (max_seconds, points)
 SPEED_TIERS = [
-    (60,  50),
-    (80,  30),
-    (100, 15),
+    (80,  50),
+    (90,  30),
+    (110, 15),
 ]
 
 
